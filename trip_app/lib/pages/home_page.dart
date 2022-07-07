@@ -12,6 +12,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  var images = {
+    'balloning.png': 'Balloning',
+    'hiking.png': 'Hiking',
+    'kayaking.png': 'Kayaking',
+    'snorkling.png': 'Snorkling'
+  };
+
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
@@ -111,7 +118,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 20,),
+          // explore more icon
           Container(
             height: 100,
             width: double.maxFinite,
@@ -133,7 +141,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           color: Colors.white,
                           image: DecorationImage(
                             image: AssetImage(
-                              'img/mountain.jpeg'
+                             'img/'+images.keys.elementAt(index)
                             ),
                           fit: BoxFit.cover
                           )
@@ -141,12 +149,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       Container(
                         child: AppText(
-                          text: 'red',
+                          text: images.values.elementAt(index),
                           color: AppColors.textColor2,
                         ),
                       ),
                     ],
-              ),
+                  ),
                 );
             }),
           ),
