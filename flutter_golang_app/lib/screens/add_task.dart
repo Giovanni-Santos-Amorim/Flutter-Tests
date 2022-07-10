@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_golang_app/widgets/button_widget.dart';
 import 'package:flutter_golang_app/widgets/textfield_widget.dart';
-
+import 'package:get/get.dart';
 import '../colors/app_colors.dart';
 
 class AddTask extends StatelessWidget {
@@ -30,9 +30,11 @@ class AddTask extends StatelessWidget {
           children: [
             Column(
               children: [
-                const SizedBox(height: 60,),
+                const SizedBox(height: 40,),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   icon: Icon(Icons.arrow_back),
                   color: AppColors.secondaryColor,)
               ],
