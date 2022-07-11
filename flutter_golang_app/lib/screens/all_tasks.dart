@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_golang_app/colors/app_colors.dart';
 import 'package:flutter_golang_app/widgets/task_widget.dart';
 import 'package:get/get.dart';
+import '../controllers/data_controller.dart';
 import '../widgets/button_widget.dart';
 
 class AllTasks extends StatelessWidget {
   const AllTasks({Key? key}) : super(key: key);
 
+  _loadData()async{
+    await Get.find<DataController>().getData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(Get.find<DataController>().myData.length);
+
+
     List myData = [
       'Try harder',
       'Try smarter'
@@ -81,7 +89,7 @@ class AllTasks extends StatelessWidget {
           const SizedBox(height: 15,),
           Flexible(
             child: ListView.builder(
-                itemCount: myData.length,
+                itemCount: Get.find<DataController>().myData.length,
                 itemBuilder: (context, index) {
               return Dismissible(
                 background: leftEditIcon,
@@ -130,7 +138,7 @@ class AllTasks extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10,),
                   child: TaskWidget(
-                    text: myData[index],
+                    text: Get.find<DataController>().myData[index]["task_name"],
                     color: Colors.blueGrey,
                   ),
                 ),
