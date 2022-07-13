@@ -1,10 +1,16 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_golang_app/const/app_constants.dart';
 import 'package:get/get.dart';
 
 class DataService extends GetConnect implements GetxService{
 
-  Future<Response> getData() async{
+  Future<Response> getData(String uri) async{
+    if(kDebugMode){
+      print(AppConstants.BASE_URL+uri);
+    }
+
     Response response = await get(
-      "http://localhost:8080/gettasks",
+      AppConstants.BASE_URL+uri,
       headers: {
         'Content-Type' : 'application/json; charset=UTF-8'
       }
@@ -13,9 +19,25 @@ class DataService extends GetConnect implements GetxService{
     return response;
   }
 
-  Future<Response> postData(dynamic body) async{
+  Future<Response> postData(String uri, dynamic body) async{
     Response response = await post(
-        "http://localhost:8080/create",
+        AppConstants.BASE_URL+uri,
+        body,
+        headers: {
+          'Content-Type' : 'application/json; charset=UTF-8'
+        }
+    );
+
+    return response;
+  }
+
+  Future<Response> updateData(String uri, dynamic body) async{
+    if(kDebugMode){
+      print(AppConstants.BASE_URL+uri);
+    }
+
+    Response response = await put(
+        AppConstants.BASE_URL+uri,
         body,
         headers: {
           'Content-Type' : 'application/json; charset=UTF-8'

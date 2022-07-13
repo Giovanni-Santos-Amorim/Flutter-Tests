@@ -77,11 +77,8 @@ class AddTask extends StatelessWidget {
                           nameController.text.trim(),
                           detailController.text.trim()
                       );
-
                       Get.to(() => AllTasks(),
                         transition: Transition.circularReveal,
-
-
                       );
                     }
                   },

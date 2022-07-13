@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -52,8 +53,10 @@ func getTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	taskId := mux.Vars(r)
 	flag := false
+	fmt.Println(taskId["id"])
 
 	for i := 0; i < len(tasks); i++ {
 		if taskId["id"] == tasks[i].ID {
@@ -74,6 +77,8 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	var task Tasks
 	_ = json.NewDecoder(r.Body).Decode(&task)
 	task.ID = strconv.Itoa(rand.Intn(10000))
+	currentTime := time.Now().Format("01-02-2006")
+	task.Date = currentTime
 	tasks = append(tasks, task)
 	json.NewEncoder(w).Encode(task)
 }
@@ -83,7 +88,28 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateTask(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("home page")
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	flag := false
+
+	for index, item := range tasks {
+		if item.ID == params["id"] {
+			fmt.Println("hello")
+			tasks = append(tasks[:index], tasks[index+1:]...)
+			var task Tasks
+			_ = json.NewDecoder(r.Body).Decode(&task)
+			task.ID = params["id"]
+			currentTime := time.Now().Format("01-02-2006")
+			task.Date = currentTime
+			tasks = append(tasks, task)
+			flag = true
+			json.NewEncoder(w).Encode(&task)
+			break
+		}
+	}
+	if !flag {
+		json.NewEncoder(w).Encode(map[string]string{"status": "error"})
+	}
 }
 
 func handleRoutes() {
@@ -93,8 +119,8 @@ func handleRoutes() {
 	router.HandleFunc("/gettasks", getTasks).Methods("GET")
 	router.HandleFunc("/gettask/{id}", getTask).Methods("GET")
 	router.HandleFunc("/create", createTask).Methods("POST")
-	router.HandleFunc("/delete{id}", deleteTask).Methods("DELETE")
-	router.HandleFunc("/{update{id}}", updateTask).Methods("PUT")
+	router.HandleFunc("/delete/{id}", deleteTask).Methods("DELETE")
+	router.HandleFunc("/update/{id}", updateTask).Methods("PUT")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_golang_app/colors/app_colors.dart';
+import 'package:flutter_golang_app/screens/view_task.dart';
 import 'package:flutter_golang_app/widgets/task_widget.dart';
 import 'package:get/get.dart';
 import '../controllers/data_controller.dart';
 import '../widgets/button_widget.dart';
+import 'edit_task.dart';
 
 class AllTasks extends StatelessWidget {
   const AllTasks({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class AllTasks extends StatelessWidget {
   Widget build(BuildContext context) {
     print(Get.find<DataController>().myData.length);
 
+    _loadData();
 
     List myData = [
       'Try harder',
@@ -88,62 +91,82 @@ class AllTasks extends StatelessWidget {
           ),
           const SizedBox(height: 15,),
           Flexible(
-            child: ListView.builder(
-                itemCount: Get.find<DataController>().myData.length,
+          child: GetBuilder<DataController>(builder: (controller){
+            return ListView.builder(
+                itemCount: controller.myData.length,
                 itemBuilder: (context, index) {
-              return Dismissible(
-                background: leftEditIcon,
-                secondaryBackground: rightDeleteIcon,
-                onDismissed: (DismissDirection direction){
+                  return Dismissible(
+                    background: leftEditIcon,
+                    secondaryBackground: rightDeleteIcon,
+                    onDismissed: (DismissDirection direction){
 
-                },
-                confirmDismiss: (DismissDirection direction) async{
-                  if(direction == DismissDirection.startToEnd){
-                    showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        barrierColor: Colors.transparent,
-                        context: context,
-                        builder: (_){
-                          return Container(
-                            height: 500,
-                            decoration: BoxDecoration(
-                              color: const Color(0xff2e3253).withOpacity(0.4),
-                              borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                topLeft: Radius.circular(20)
-                              )
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20, right: 20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ButtonWidget(backgroundColor: AppColors.mainColor, text: 'View', textColor: Colors.white,),
-                                  const SizedBox(height: 20,),
-                                  ButtonWidget(backgroundColor: AppColors.mainColor, text: 'Edit', textColor: Colors.white,)
+                    },
+                    confirmDismiss: (DismissDirection direction) async{
+                      if(direction == DismissDirection.startToEnd){
+                        showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            barrierColor: Colors.transparent,
+                            context: context,
+                            builder: (_){
+                              return Container(
+                                height: 500,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xff2e3253).withOpacity(0.4),
+                                    borderRadius: const BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20)
+                                    )
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20, right: 20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                          onTap: () {
+                                            Get.off(() => ViewTask(id: int.parse(controller.myData[index]["id"].toString())));
+                                          },
+                                          child: ButtonWidget(
+                                            backgroundColor: AppColors.mainColor,
+                                            text: 'View',
+                                            textColor: Colors.white,
+                                          )
+                                      ),
+                                      const SizedBox(height: 20,),
+                                      GestureDetector(
+                                          onTap: () {
+                                            Get.off(() => EditTask(id: int.parse(controller.myData[index]["id"].toString())));
+                                          },
+                                          child: ButtonWidget(
+                                            backgroundColor: AppColors.mainColor,
+                                            text: 'Edit',
+                                            textColor: Colors.white,)
+                                      )
 
-                                ],
-                              ),
-                            ),
-                          );
-                        });
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
 
-                    return false;
-                  }
-                  else{
-                    return Future.delayed(Duration(seconds: 1),() => direction == DismissDirection.endToStart);
-                  }
-                } ,
-                key: ObjectKey(index),
-                child: Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10,),
-                  child: TaskWidget(
-                    text: Get.find<DataController>().myData[index]["task_name"],
-                    color: Colors.blueGrey,
-                  ),
-                ),
-              );
-            }),
+                        return false;
+                      }
+                      else{
+                        return Future.delayed(Duration(seconds: 1),() => direction == DismissDirection.endToStart);
+                      }
+                    } ,
+                    key: ObjectKey(index),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10,),
+                      child: TaskWidget(
+                        text: controller.myData[index]["task_name"],
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  );
+                });
+          })
+
           )
         ],
       ),
