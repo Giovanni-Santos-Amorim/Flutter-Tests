@@ -4,6 +4,7 @@ import 'package:flutter_golang_app/screens/view_task.dart';
 import 'package:flutter_golang_app/widgets/task_widget.dart';
 import 'package:get/get.dart';
 import '../controllers/data_controller.dart';
+import '../routes/routes.dart';
 import '../widgets/button_widget.dart';
 import 'edit_task.dart';
 
@@ -124,7 +125,8 @@ class AllTasks extends StatelessWidget {
                                     children: [
                                       GestureDetector(
                                           onTap: () {
-                                            Get.off(() => ViewTask(id: int.parse(controller.myData[index]["id"].toString())));
+                                            //Get.off(() => ViewTask(id: int.parse(controller.myData[index]["id"].toString())));
+                                            Get.offNamed(RoutesClass.getViewTasksRoute(controller.myData[index]["id"].toString()));
                                           },
                                           child: ButtonWidget(
                                             backgroundColor: AppColors.mainColor,
@@ -135,7 +137,8 @@ class AllTasks extends StatelessWidget {
                                       const SizedBox(height: 20,),
                                       GestureDetector(
                                           onTap: () {
-                                            Get.off(() => EditTask(id: int.parse(controller.myData[index]["id"].toString())));
+                                            //Get.off(() => EditTask(id: int.parse(controller.myData[index]["id"].toString())));
+                                            Get.offNamed(RoutesClass.getEditTasksRoute(controller.myData[index]["id"].toString()));
                                           },
                                           child: ButtonWidget(
                                             backgroundColor: AppColors.mainColor,
@@ -152,6 +155,8 @@ class AllTasks extends StatelessWidget {
                         return false;
                       }
                       else{
+                        controller.deleteData(int.parse(controller.myData[index]["id"]));
+                        
                         return Future.delayed(Duration(seconds: 1),() => direction == DismissDirection.endToStart);
                       }
                     } ,

@@ -7,6 +7,7 @@ import 'package:flutter_golang_app/widgets/textfield_widget.dart';
 import 'package:get/get.dart';
 import '../colors/app_colors.dart';
 import '../controllers/data_controller.dart';
+import '../routes/routes.dart';
 
 class AddTask extends StatelessWidget {
   const AddTask({Key? key}) : super(key: key);
@@ -53,6 +54,8 @@ class AddTask extends StatelessWidget {
                   onPressed: () {
                     Get.back();
                   },
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
                   icon: Icon(Icons.arrow_back),
                   color: AppColors.secondaryColor,)
               ],
@@ -77,9 +80,7 @@ class AddTask extends StatelessWidget {
                           nameController.text.trim(),
                           detailController.text.trim()
                       );
-                      Get.to(() => AllTasks(),
-                        transition: Transition.circularReveal,
-                      );
+                      Get.offNamed(RoutesClass.getAllTasksRoute());
                     }
                   },
                   child: ButtonWidget(

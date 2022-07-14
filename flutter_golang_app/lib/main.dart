@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_golang_app/routes/routes.dart';
 import 'package:flutter_golang_app/screens/add_task.dart';
 import 'package:flutter_golang_app/screens/all_tasks.dart';
 import 'package:flutter_golang_app/screens/home_screen.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      initialRoute: RoutesClass.getHomeRoute(),
+      getPages: RoutesClass.routes,
     );
   }
 }

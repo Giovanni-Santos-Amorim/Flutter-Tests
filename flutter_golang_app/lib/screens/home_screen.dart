@@ -5,6 +5,8 @@ import 'package:flutter_golang_app/screens/all_tasks.dart';
 import 'package:flutter_golang_app/widgets/button_widget.dart';
 import 'package:get/get.dart';
 
+import '../routes/routes.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -54,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: MediaQuery.of(context).size.height/2.0,),
             InkWell(
               onTap: (){
-                Get.to(() => AddTask(), transition: Transition.zoom, duration: Duration(milliseconds: 500));
+                //Get.to(() => AddTask(), transition: Transition.zoom, duration: Duration(milliseconds: 500));
+                Get.toNamed(RoutesClass.getAddTasksRoute());
               },
               child: ButtonWidget(
                   backgroundColor: AppColors.mainColor,
@@ -64,7 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 15,),
             InkWell(
               onTap: (){
-                Get.to(() => AllTasks(), transition: Transition.fade, duration: Duration(seconds: 1));
+                //Get.to(() => AllTasks(), transition: Transition.fade, duration: const Duration(seconds: 1));
+                Get.toNamed(RoutesClass.getAllTasksRoute());
               },
               child: ButtonWidget(
                   backgroundColor: Colors.white,

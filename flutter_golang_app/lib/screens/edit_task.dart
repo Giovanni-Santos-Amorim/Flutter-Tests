@@ -7,6 +7,7 @@ import 'package:flutter_golang_app/widgets/textfield_widget.dart';
 import 'package:get/get.dart';
 import '../colors/app_colors.dart';
 import '../controllers/data_controller.dart';
+import '../routes/routes.dart';
 
 class EditTask extends StatelessWidget {
   final int id;
@@ -93,9 +94,7 @@ class EditTask extends StatelessWidget {
                             detailController.text.trim(),
                             int.parse(controller.singleData["id"].toString())
                         );
-                        Get.to(() => AllTasks(),
-                          transition: Transition.circularReveal,
-                        );
+                        Get.offNamed(RoutesClass.getAllTasksRoute());
                       }
                     },
                     child: ButtonWidget(
