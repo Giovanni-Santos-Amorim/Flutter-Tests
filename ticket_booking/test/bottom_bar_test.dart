@@ -4,11 +4,5 @@ import 'package:ticket_booking/screens/bottom_bar.dart';
 
 
 void main(){
-  testWidgets('screen switching with BottomNavigationBar', (WidgetTester tester) async{
-    await tester.pumpWidget(
-         BottomBar()
-    );
 
-    
- });
 }
